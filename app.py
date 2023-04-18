@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from flask import Flask, Blueprint
 from flask_restful import Api
 from database import db
@@ -25,4 +26,33 @@ cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
+=======
+from flask import Flask, Blueprint
+from flask_restful import Api
+from database import db
+from flask_cors import CORS
+from resources.pessoa import PessoaResource, PessoaResourceId
+
+app = Flask(__name__)
+
+api_bp = Blueprint('api', __name__)
+api = Api(api_bp, prefix="/api")
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
+
+with app.app_context():
+  db.create_all()
+  
+api.add_resource(PessoaResource, '/pessoa')
+api.add_resource(PessoaResourceId, '/pessoa/<int:id>')
+app.register_blueprint(api_bp)
+
+cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+if __name__ == '__main__':
+    app.run(debug=True, port=5000)
+>>>>>>> 6e644c2a40dff79b5007cf8f7be61627c6df9ade
       
