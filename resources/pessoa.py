@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse, marshal_with, marshal
 from model.pessoa import Pessoa, pessoa_field
-from model.menssage import Menssage
+from model.menssage import Menssage, msg_fields
 from database import db
 from log.logging import logging
 
@@ -13,7 +13,7 @@ class PessoaResource(Resource):
   @marshal_with(pessoa_field)
   def get(self):
     pessoas = Pessoa.query.all()
-    logging.info("Listado")
+    logging.info("Todos os dados listados")
     return pessoas, 201
 
   @marshal_with(pessoa_field)
@@ -21,13 +21,16 @@ class PessoaResource(Resource):
     args = parser.parse_args()
     nome = args["nome"]
     email = args["email"]
-    
-    pessoas = Pessoa(nome, email)
-    
-    db.session.add(pessoas)
-    db.session.commit()
-    
-    return pessoas, 201
+    if nome is not None and email is not None:
+      pessoas = Pessoa(nome, email)
+      db.session.add(pessoas)
+      db.session.commit()
+      logging.info("Pessoa adicionada!")
+      return pessoas, 201
+    else:
+      logging.error("Não foi possivel adicionar! - Falta de informações")
+      # msg = Menssage("Não foi possivel adicionar! - Falta de informações", 3)
+      return 
       
 class PessoaResourceId(Resource):
 
@@ -59,5 +62,9 @@ class PessoaResourceId(Resource):
     else:
       msg = Menssage("Pessoa nao encontrada", 1)
       return marshal(msg, pessoa_field), 404
+    
   def delete(self, id):
+    pessoa = Pessoa.query.get(id)
+    db.session.delete(pessoa)
+    db.session.commit()
     return
