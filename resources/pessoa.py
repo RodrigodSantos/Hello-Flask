@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse, marshal_with, marshal
 from model.pessoa import Pessoa, pessoa_field
 from model.menssage import Menssage
 from database import db
+from log.logging import logging
 
 parser = reqparse.RequestParser()
 parser.add_argument('nome', type=str)
@@ -12,6 +13,7 @@ class PessoaResource(Resource):
   @marshal_with(pessoa_field)
   def get(self):
     pessoas = Pessoa.query.all()
+    logging.info("Listado")
     return pessoas, 201
 
   @marshal_with(pessoa_field)

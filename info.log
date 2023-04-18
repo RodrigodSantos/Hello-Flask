@@ -1,5 +1,2 @@
-2023-04-17 20:54:05,689 WARNING _internal _log  * Debugger is active!
-2023-04-17 20:54:05,696 INFO _internal _log  * Debugger PIN: 713-956-995
-2023-04-17 20:56:25,364 INFO _internal _log 127.0.0.1 - - [17/Apr/2023 20:56:25] "[35m[1mGET /api/pessoa HTTP/1.1[0m" 201 -
-2023-04-17 20:57:09,035 INFO _internal _log 127.0.0.1 - - [17/Apr/2023 20:57:09] "[35m[1mGET /api/pessoa/1 HTTP/1.1[0m" 201 -
-2023-04-17 20:57:11,285 INFO _internal _log 127.0.0.1 - - [17/Apr/2023 20:57:11] "[35m[1mGET /api/pessoa HTTP/1.1[0m" 201 -
+2023-04-17 21:58:56,152 WARNING _internal _log  * Debugger is active!
+2023-04-17 21:58:56,158 INFO _internal _log  * Debugger PIN: 713-956-995
