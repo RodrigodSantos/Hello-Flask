@@ -58,8 +58,16 @@ class PessoaResourceId(Resource):
     db.session.commit()
     return marshal(pessoa, pessoa_fields), 201
     
-  def delete(self, id):
-    pessoa = Pessoa.query.get(id)
-    db.session.delete(pessoa)
+  def delete(self, id): 
+    pessoa = Pessoa.query.filter_by(id=id).first() 
+
+    if pessoa is None:
+      msg = Menssage(1, "Pessoa nao encontrada")
+      return marshal(msg, msg_fields), 404
+  
+    pessoa.status = "Desactivate"
+    db.session.add(pessoa)
     db.session.commit()
-    return
+
+    msg = Menssage(200, "Deleted")
+    return marshal(msg, msg_fields), 200
