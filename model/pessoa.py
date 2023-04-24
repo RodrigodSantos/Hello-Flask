@@ -15,4 +15,4 @@ class Pessoa(db.Model):
       self.status = "activated"
       
     def __repr__(self):
-        return f'<Pessoa {self.nome}>'      
+        return f'<Pessoa {self.nome}>'
