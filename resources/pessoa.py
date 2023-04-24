@@ -3,6 +3,7 @@ from model.pessoa import Pessoa, pessoa_fields
 from model.menssage import Menssage, msg_fields
 from database import db
 from log.logging import logging
+from auth.auth import auth
 
 parser = reqparse.RequestParser()
 parser.add_argument('nome', type=str)
@@ -11,11 +12,13 @@ parser.add_argument('email', type=str)
 class PessoaResource(Resource):
 
   @marshal_with(pessoa_fields)
+  @auth.login_required
   def get(self):
     pessoas = Pessoa.query.all()
     logging.info("Todos os dados listados")
     return pessoas, 201
 
+  @auth.login_required
   def post(self):
     args = parser.parse_args()
     nome = args["nome"]
@@ -30,7 +33,7 @@ class PessoaResource(Resource):
     
       
 class PessoaResourceId(Resource):
-
+  @auth.login_required
   def get(self, id):
     pessoa = Pessoa.query.filter_by(id=id).first()
     if pessoa is None:
@@ -40,7 +43,8 @@ class PessoaResourceId(Resource):
     
     logging.info(f"Pessoa listada! - id:{id}")
     return marshal(pessoa, pessoa_fields), 201
-    
+  
+  @auth.login_required
   def put(self, id):
     args = parser.parse_args()
     nome = args["nome"]
@@ -54,10 +58,12 @@ class PessoaResourceId(Resource):
   
     pessoa.nome = nome
     pessoa.email = email
+    pessoa.status = "activated" 
     db.session.add(pessoa)
     db.session.commit()
     return marshal(pessoa, pessoa_fields), 201
-    
+  
+  @auth.login_required
   def delete(self, id): 
     pessoa = Pessoa.query.filter_by(id=id).first() 
 
@@ -65,9 +71,10 @@ class PessoaResourceId(Resource):
       msg = Menssage(1, "Pessoa nao encontrada")
       return marshal(msg, msg_fields), 404
   
-    pessoa.status = "Desactivate"
+    pessoa.status = "disabled"
     db.session.add(pessoa)
     db.session.commit()
 
     msg = Menssage(200, "Deleted")
     return marshal(msg, msg_fields), 200
+  
