@@ -12,12 +12,11 @@ api = Api(api_bp, prefix="/api")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-
 db.init_app(app)
 
 with app.app_context():
   db.create_all()
-  
+
 api.add_resource(PessoaResource, '/pessoa')
 api.add_resource(PessoaResourceId, '/pessoa/<int:id>')
 app.register_blueprint(api_bp)
