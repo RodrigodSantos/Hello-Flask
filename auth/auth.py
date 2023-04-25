@@ -1,5 +1,5 @@
 from flask_httpauth import HTTPTokenAuth
-from log.logging import logging
+from helpers.log.logging import logging
 
 auth = HTTPTokenAuth(scheme='Bearer')
 

@@ -1,8 +1,8 @@
 from flask_restful import Resource, reqparse, marshal_with, marshal
 from model.pessoa import Pessoa, pessoa_fields
 from model.menssage import Menssage, msg_fields
-from database import db
-from log.logging import logging
+from helpers.database import db
+from helpers.log.logging import logging
 from auth.auth import auth
 
 parser = reqparse.RequestParser()
