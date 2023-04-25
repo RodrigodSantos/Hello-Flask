@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse, marshal_with, marshal
 from model.pessoa import Pessoa, pessoa_fields
 from model.menssage import Menssage, msg_fields
+from model.endereco import Endereco
 from helpers.database import db
 from helpers.log.logging import logging
 from auth.auth import auth

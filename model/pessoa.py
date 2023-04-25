@@ -8,11 +8,13 @@ class Pessoa(db.Model):
     nome = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     status = db.Column(db.String, nullable=False)
+    endereco = db.relationship("Endereco", uselist=False, backref="pessoa")
     
-    def __init__(self, nome, email):
+    def __init__(self, nome, email, endereco):
       self.nome = nome
       self.email = email
       self.status = "activated"
+      self.endereco = endereco
       
     def __repr__(self):
         return f'<Pessoa {self.nome}>'
